@@ -1,17 +1,21 @@
 import React from "react";
 import GameHeader from "./GameHeader";
-import { alphabetsArray } from "../../data";
+import { Alphabet, CharObj } from "../../data";
 
 interface GameProps {
-  randomWord: { letter: string; isVisible: boolean };
-
+  randomWord: CharObj[];
+  alphabets: Alphabet[];
   handleGuess: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const Game: React.FC<GameProps> = ({ randomWord, handleGuess }) => {
-  const letters = alphabetsArray.map((letter) => (
-    <button onClick={handleGuess} className="letter-btn" key={letter.letter}>
-      {letter.letter}
+const Game: React.FC<GameProps> = ({ randomWord, handleGuess, alphabets }) => {
+  const letters = alphabets.map((alphabet) => (
+    <button
+      onClick={handleGuess}
+      className={`letter-btn ${alphabet.isGuessed ? "guessed" : ""}`}
+      key={alphabet.letter}
+    >
+      {alphabet.letter}
     </button>
   ));
 

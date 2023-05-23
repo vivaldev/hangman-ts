@@ -1,14 +1,22 @@
-interface Words {
+export interface Words {
   id: number;
   word: string;
   hasGuessed: boolean;
 }
 
-interface Alphabets {
-  id: number;
+export interface Alphabet {
   letter: string;
-  hasGuessed: boolean;
+  isGuessed: boolean;
 }
+
+export interface CharObj {
+  letter: string;
+  isVisible: boolean;
+}
+
+// export type CharObj = { letter: string; isVisible: boolean };
+
+// export type Alphabet = { letter: string; isGuessed: boolean };
 
 export const wordsArray: Words[] = [
   {
@@ -213,135 +221,6 @@ export const wordsArray: Words[] = [
   },
 ];
 
-export const alphabetsArray: Alphabets[] = [
-  {
-    id: 1,
-    letter: "A",
-    hasGuessed: false,
-  },
-  {
-    id: 2,
-    letter: "B",
-    hasGuessed: false,
-  },
-  {
-    id: 3,
-    letter: "C",
-    hasGuessed: false,
-  },
-  {
-    id: 4,
-    letter: "D",
-    hasGuessed: false,
-  },
-  {
-    id: 5,
-    letter: "E",
-    hasGuessed: false,
-  },
-  {
-    id: 6,
-    letter: "F",
-    hasGuessed: false,
-  },
-  {
-    id: 7,
-    letter: "G",
-    hasGuessed: false,
-  },
-  {
-    id: 8,
-    letter: "H",
-    hasGuessed: false,
-  },
-  {
-    id: 9,
-    letter: "I",
-    hasGuessed: false,
-  },
-  {
-    id: 10,
-    letter: "J",
-    hasGuessed: false,
-  },
-  {
-    id: 11,
-    letter: "K",
-    hasGuessed: false,
-  },
-  {
-    id: 12,
-    letter: "L",
-    hasGuessed: false,
-  },
-  {
-    id: 13,
-    letter: "M",
-    hasGuessed: false,
-  },
-  {
-    id: 14,
-    letter: "N",
-    hasGuessed: false,
-  },
-  {
-    id: 15,
-    letter: "O",
-    hasGuessed: false,
-  },
-  {
-    id: 16,
-    letter: "P",
-    hasGuessed: false,
-  },
-  {
-    id: 17,
-    letter: "Q",
-    hasGuessed: false,
-  },
-  {
-    id: 18,
-    letter: "R",
-    hasGuessed: false,
-  },
-  {
-    id: 19,
-    letter: "S",
-    hasGuessed: false,
-  },
-  {
-    id: 20,
-    letter: "T",
-    hasGuessed: false,
-  },
-  {
-    id: 21,
-    letter: "U",
-    hasGuessed: false,
-  },
-  {
-    id: 22,
-    letter: "V",
-    hasGuessed: false,
-  },
-  {
-    id: 23,
-    letter: "W",
-    hasGuessed: false,
-  },
-  {
-    id: 24,
-    letter: "X",
-    hasGuessed: false,
-  },
-  {
-    id: 25,
-    letter: "Y",
-    hasGuessed: false,
-  },
-  {
-    id: 26,
-    letter: "Z",
-    hasGuessed: false,
-  },
-];
+export const initialAlphabets: Alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  .split("")
+  .map((letter) => ({ letter, isGuessed: false }));

@@ -1,16 +1,16 @@
 import React, { useState, useContext, createContext } from "react";
-import { wordsArray } from "./data";
+import { wordsArray, CharObj, initialAlphabets } from "./data";
+
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Game from "./components/Game/Game";
 import { GameProvider } from "./components/context/GameProvider";
 
-type CharObj = { letter: string; isVisible: boolean };
-
 const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [difficulty, setDifficulty] = useState(10);
   const [randomWord, setRandomWord] = useState<CharObj[]>([]);
+  const [alphabets, setAlphabets] = useState(initialAlphabets);
 
   function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,8 +35,15 @@ const App: React.FC = () => {
   }
 
   function handleGuess(event: React.MouseEvent<HTMLButtonElement>) {
-    const letter = (event.target as HTMLButtonElement).innerText;
-    console.log(`You pressed: ${letter} `);
+    const guessedLetter = (event.target as HTMLButtonElement).innerText;
+
+    setAlphabets((alphabets) =>
+      alphabets.map((alphabet) =>
+        alphabet.letter === guessedLetter
+          ? { ...alphabet, isGuessed: true }
+          : alphabet
+      )
+    );
   }
 
   return (
@@ -44,7 +51,11 @@ const App: React.FC = () => {
       <GameProvider>
         <Header />
         {gameStarted ? (
-          <Game handleGuess={handleGuess} randomWord={randomWord} />
+          <Game
+            handleGuess={handleGuess}
+            randomWord={randomWord}
+            alphabets={alphabets}
+          />
         ) : (
           <Menu
             handleStartGame={handleStartGame}

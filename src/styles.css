@@ -7,13 +7,13 @@
 
 .App {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 }
 
 /* HEADER */
@@ -29,7 +29,7 @@ h1 {
   font-weight: 700;
   font-family: sans-serif;
   color: rgb(128, 128, 183);
-  margin: 0.5rem 0;
+  margin: 0;
 }
 
 /* MENU */
@@ -148,13 +148,6 @@ h1 {
 
 /* game console */
 
-.game-console {
-  height: 80%;
-  width: 100%;
-  border-top: 2px solid gray;
-  display: flex;
-}
-
 .console-letters {
   /* border: 1px solid gray; */
   width: 60%;
@@ -209,8 +202,11 @@ form > button {
 .letters-row {
   display: grid;
   grid-template-columns: repeat(13, 1fr);
-  grid-gap: 0.5rem;
-  width: 90%;
+  grid-gap: 1rem;
+
+  height: 100%;
+  width: 95%;
+  margin: 1rem;
   /* border: 1px solid white; */
 }
 
@@ -218,13 +214,24 @@ form > button {
   font-size: 1.5rem;
   font-weight: 600;
 
-  box-shadow: 0.05rem 0.05rem 6px rgb(88, 92, 102);
+  box-shadow: 0.05rem 0.05rem 3px rgb(62, 67, 77);
 
   border: 1px solid rgb(37, 37, 76);
   border-radius: 4px;
 
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
 
   background-color: #5f616c;
   color: rgb(7, 15, 22);
+}
+
+.guessed {
+  background-color: rgb(31, 31, 80);
+  color: rgb(72, 95, 115);
+}
+
+.letter-btn:hover {
+  cursor: pointer;
+  opacity: 0.9;
+  box-shadow: 0.075rem 0.075rem 8px rgb(120, 126, 139);
 }
