@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useGame } from "../../components/context/GameProvider";
+import { useGame } from "../context/GameProvider";
 
 const GameHeader = () => {
   const { playerName, guessCount } = useGame();

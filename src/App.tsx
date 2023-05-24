@@ -8,9 +8,10 @@ import { useGame } from "./components/context/GameProvider";
 
 const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
-  const [wordLength, setWordLength] = useState(10);
+  const [difficulty, setDifficulty] = useState(10);
   const [randomWordChars, setRandomWordChars] = useState<WordChars[]>([]);
   const [alphabets, setAlphabets] = useState(initialAlphabets);
+  const [guessedWord, setGuessedWord] = useState("");
 
   const { guessCount, setGuessCount } = useGame();
 
@@ -24,7 +25,7 @@ const App: React.FC = () => {
     // Get all word objects from DB and filter them by word length (user set difficulty)
     const onlyWordsArray = wordsArray.map((wordObject) => wordObject.word);
     const filteredWords = onlyWordsArray.filter(
-      (word) => word.length <= wordLength
+      (word) => word.length <= difficulty
     );
 
     // Choose a random word from the filtered word candidates
@@ -39,7 +40,7 @@ const App: React.FC = () => {
     setRandomWordChars(chosenWordChars);
   }
 
-  function handleGuess(event: React.MouseEvent<HTMLButtonElement>) {
+  function handleCharGuess(event: React.MouseEvent<HTMLButtonElement>) {
     // Check if player has any guesses left and add count
     if (guessCount < 9) {
       setGuessCount((count) => count + 1);
@@ -70,36 +71,23 @@ const App: React.FC = () => {
     );
   }
 
-  // Display the alphabet buttons that player uses to guess the word
-  const alphabetsDisplay = alphabets.map((alphabet) => (
-    <button
-      onClick={handleGuess}
-      disabled={alphabet.isGuessed}
-      className={`alphabet-btn ${alphabet.isGuessed ? "guessed" : ""}`}
-      key={alphabet.letter}
-    >
-      {alphabet.letter}
-    </button>
-  ));
-
-  // Display the word that player is trying to guess as individual characters
-  const wordChars = randomWordChars.map(
-    (charObj: { letter: string; isVisible: boolean }, index: number) => (
-      <div key={charObj.letter + index} className="guess-letter">
-        {charObj.isVisible ? charObj.letter : "_"}
-      </div>
-    )
-
-    // Check matched
-  );
+  function handleWordGuess() {
+    console.log("word guess");
+  }
 
   return (
     <div className="App">
       <Header />
       {gameStarted ? (
-        <Game wordChars={wordChars} alphabetsDisplay={alphabetsDisplay} />
+        <Game
+          randomWordChars={randomWordChars}
+          alphabets={alphabets}
+          handleCharGuess={handleCharGuess}
+          handleWordGuess={handleWordGuess}
+          setGuessedWord={setGuessedWord}
+        />
       ) : (
-        <Menu handleStartGame={handleStartGame} setWordLength={setWordLength} />
+        <Menu handleStartGame={handleStartGame} setDifficulty={setDifficulty} />
       )}
     </div>
   );

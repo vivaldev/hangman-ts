@@ -1,26 +1,42 @@
 import React from "react";
 import GameHeader from "./GameHeader";
+import WordCharecters from "./WordCharecters";
+import GuessWord from "./GuessWord";
+import { WordChars, Alphabet } from "../../data";
+import AlphabetsDisplay from "./AlphabetsDisplay";
 
 interface GameProps {
-  wordChars: any;
-  alphabetsDisplay: any;
+  randomWordChars: WordChars[];
+  alphabets: Alphabet[];
+  handleCharGuess: React.MouseEventHandler<HTMLButtonElement>;
+  handleWordGuess: React.FormEventHandler<HTMLFormElement>;
+  setGuessedWord: (value: string) => void;
 }
 
 const Game: React.FC<GameProps> = ({
-  wordChars,
-
-  alphabetsDisplay,
+  randomWordChars,
+  alphabets,
+  handleCharGuess,
+  handleWordGuess,
+  setGuessedWord,
 }) => {
   return (
     <div className="game">
       <GameHeader />
       <div className="game-display">
-        <div className="console-letters">{wordChars}</div>
+        <WordCharecters randomWordChars={randomWordChars} />
         <div className="console-hangtree">Hangtree</div>
       </div>
       <div className="game-input">
-        <div className="letters-row">{alphabetsDisplay}</div>
+        <AlphabetsDisplay
+          alphabets={alphabets}
+          handleCharGuess={handleCharGuess}
+        />
       </div>
+      <GuessWord
+        handleWordGuess={handleWordGuess}
+        setGuessedWord={setGuessedWord}
+      />
     </div>
   );
 };

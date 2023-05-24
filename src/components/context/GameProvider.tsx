@@ -20,7 +20,12 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   return (
     <GameContext.Provider
-      value={{ playerName, setPlayerName, guessCount, setGuessCount }}
+      value={{
+        playerName,
+        setPlayerName,
+        guessCount,
+        setGuessCount,
+      }}
     >
       {children}
     </GameContext.Provider>

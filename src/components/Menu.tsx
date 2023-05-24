@@ -1,17 +1,17 @@
 import React from "react";
-import { useGame } from "../components/context/GameProvider";
+import { useGame } from "./context/GameProvider";
 
 interface MenuProps {
   handleStartGame: React.FormEventHandler<HTMLFormElement>;
 
-  setWordLength: React.Dispatch<React.SetStateAction<number>>;
+  setDifficulty: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Menu: React.FC<MenuProps> = ({ handleStartGame, setWordLength }) => {
+const Menu: React.FC<MenuProps> = ({ handleStartGame, setDifficulty }) => {
   const { setPlayerName } = useGame();
 
   function handleSliderChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setWordLength(Number(event.target.value));
+    setDifficulty(Number(event.target.value));
   }
 
   return (
