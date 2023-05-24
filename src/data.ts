@@ -9,7 +9,7 @@ export interface Alphabet {
   isGuessed: boolean;
 }
 
-export interface CharObj {
+export interface WordChars {
   letter: string;
   isVisible: boolean;
 }

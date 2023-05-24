@@ -1,5 +1,5 @@
-import React, { useState, useContext, createContext } from "react";
-import { wordsArray, CharObj, initialAlphabets } from "./data";
+import React, { useState } from "react";
+import { wordsArray, initialAlphabets, WordChars } from "./data";
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";
@@ -8,8 +8,8 @@ import { GameProvider } from "./components/context/GameProvider";
 
 const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
-  const [difficulty, setDifficulty] = useState(10);
-  const [randomWord, setRandomWord] = useState<CharObj[]>([]);
+  const [wordLength, setWordLength] = useState(10);
+  const [randomWordChars, setRandomWordChars] = useState<WordChars[]>([]);
   const [alphabets, setAlphabets] = useState(initialAlphabets);
 
   function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
@@ -19,24 +19,29 @@ const App: React.FC = () => {
   }
 
   function getRandomWord() {
+    // Get all word objects from DB and filter them by word length (user set difficulty)
     const onlyWordsArray = wordsArray.map((wordObject) => wordObject.word);
     const filteredWords = onlyWordsArray.filter(
-      (word) => word.length <= difficulty
+      (word) => word.length <= wordLength
     );
+
+    // Choose a random word from the filtered word candidates
     const chosenWord =
       filteredWords[Math.floor(Math.random() * filteredWords.length)];
 
-    // Create array of character objects
-    const charObjArray = chosenWord
+    // Split the chosen word into an array of characters and map them to an object with a letter and a boolean value
+    const chosenWordChars = chosenWord
       .split("")
       .map((letter) => ({ letter, isVisible: false }));
 
-    setRandomWord(charObjArray);
+    setRandomWordChars(chosenWordChars);
   }
 
   function handleGuess(event: React.MouseEvent<HTMLButtonElement>) {
+    // Get the guessed letter from the button's innerText
     const guessedLetter = (event.target as HTMLButtonElement).innerText;
 
+    // Change the display of the guessed letter
     setAlphabets((alphabets) =>
       alphabets.map((alphabet) =>
         alphabet.letter === guessedLetter
@@ -53,13 +58,13 @@ const App: React.FC = () => {
         {gameStarted ? (
           <Game
             handleGuess={handleGuess}
-            randomWord={randomWord}
+            randomWordChars={randomWordChars}
             alphabets={alphabets}
           />
         ) : (
           <Menu
             handleStartGame={handleStartGame}
-            setDifficulty={setDifficulty}
+            setWordLength={setWordLength}
           />
         )}
       </GameProvider>
