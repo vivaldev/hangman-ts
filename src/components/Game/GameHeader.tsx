@@ -9,7 +9,7 @@ const GameHeader = () => {
         Player: <span>{playerName}</span>{" "}
       </div>
       <div className="guess-count">
-        Guesses: <span>{guessCount}</span>
+        Guesses: <span>{guessCount}</span>/10
       </div>
     </div>
   );

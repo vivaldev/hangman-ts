@@ -210,7 +210,7 @@ form > button {
   /* border: 1px solid white; */
 }
 
-.letter-btn {
+.alphabet-btn {
   font-size: 1.5rem;
   font-weight: 600;
 
@@ -225,13 +225,19 @@ form > button {
   color: rgb(7, 15, 22);
 }
 
-.guessed {
+.alphabet-btn:hover {
+  cursor: pointer;
+  opacity: 0.9;
+  box-shadow: 0.075rem 0.075rem 8px rgb(120, 126, 139);
+}
+
+.alphabet-btn.guessed {
   background-color: rgb(31, 31, 80);
   color: rgb(72, 95, 115);
 }
 
-.letter-btn:hover {
-  cursor: pointer;
-  opacity: 0.9;
-  box-shadow: 0.075rem 0.075rem 8px rgb(120, 126, 139);
+.alphabet-btn.guessed:hover {
+  cursor: not-allowed;
+  opacity: 1;
+  box-shadow: 0.05rem 0.05rem 3px rgb(62, 67, 77);
 }

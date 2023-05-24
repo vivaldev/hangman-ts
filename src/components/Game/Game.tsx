@@ -1,38 +1,16 @@
 import React from "react";
 import GameHeader from "./GameHeader";
-import { Alphabet, WordChars } from "../../data";
 
 interface GameProps {
-  randomWordChars: WordChars[];
-  alphabets: Alphabet[];
-  handleGuess: React.MouseEventHandler<HTMLButtonElement>;
+  wordChars: any;
+  alphabetsDisplay: any;
 }
 
 const Game: React.FC<GameProps> = ({
-  randomWordChars,
-  handleGuess,
-  alphabets,
+  wordChars,
+
+  alphabetsDisplay,
 }) => {
-  // Display the alphabet buttons that player uses to guess the word
-  const alphabetsDisplay = alphabets.map((alphabet) => (
-    <button
-      onClick={handleGuess}
-      className={`letter-btn ${alphabet.isGuessed ? "guessed" : ""}`}
-      key={alphabet.letter}
-    >
-      {alphabet.letter}
-    </button>
-  ));
-
-  // Display the word that player is trying to guess as individual characters
-  const wordChars = randomWordChars.map(
-    (letterObj: { letter: string; isVisible: boolean }, index: number) => (
-      <div key={letterObj.letter + index} className="guess-letter">
-        {letterObj.isVisible ? letterObj.letter : "_"}
-      </div>
-    )
-  );
-
   return (
     <div className="game">
       <GameHeader />

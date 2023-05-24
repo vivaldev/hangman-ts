@@ -4,13 +4,15 @@ import { wordsArray, initialAlphabets, WordChars } from "./data";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Game from "./components/Game/Game";
-import { GameProvider } from "./components/context/GameProvider";
+import { useGame } from "./components/context/GameProvider";
 
 const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [wordLength, setWordLength] = useState(10);
   const [randomWordChars, setRandomWordChars] = useState<WordChars[]>([]);
   const [alphabets, setAlphabets] = useState(initialAlphabets);
+
+  const { guessCount, setGuessCount } = useGame();
 
   function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,6 +40,14 @@ const App: React.FC = () => {
   }
 
   function handleGuess(event: React.MouseEvent<HTMLButtonElement>) {
+    // Check if player has any guesses left and add count
+    if (guessCount < 9) {
+      setGuessCount((count) => count + 1);
+    } else {
+      setGuessCount((count) => count + 1);
+      console.log("Game Over!");
+    }
+
     // Get the guessed letter from the button's innerText
     const guessedLetter = (event.target as HTMLButtonElement).innerText;
 
@@ -49,25 +59,48 @@ const App: React.FC = () => {
           : alphabet
       )
     );
+
+    // Check matches
+    setRandomWordChars((currentWordChars) =>
+      currentWordChars.map((charObj) =>
+        charObj.letter === guessedLetter
+          ? { ...charObj, isVisible: true }
+          : charObj
+      )
+    );
   }
+
+  // Display the alphabet buttons that player uses to guess the word
+  const alphabetsDisplay = alphabets.map((alphabet) => (
+    <button
+      onClick={handleGuess}
+      disabled={alphabet.isGuessed}
+      className={`alphabet-btn ${alphabet.isGuessed ? "guessed" : ""}`}
+      key={alphabet.letter}
+    >
+      {alphabet.letter}
+    </button>
+  ));
+
+  // Display the word that player is trying to guess as individual characters
+  const wordChars = randomWordChars.map(
+    (charObj: { letter: string; isVisible: boolean }, index: number) => (
+      <div key={charObj.letter + index} className="guess-letter">
+        {charObj.isVisible ? charObj.letter : "_"}
+      </div>
+    )
+
+    // Check matched
+  );
 
   return (
     <div className="App">
-      <GameProvider>
-        <Header />
-        {gameStarted ? (
-          <Game
-            handleGuess={handleGuess}
-            randomWordChars={randomWordChars}
-            alphabets={alphabets}
-          />
-        ) : (
-          <Menu
-            handleStartGame={handleStartGame}
-            setWordLength={setWordLength}
-          />
-        )}
-      </GameProvider>
+      <Header />
+      {gameStarted ? (
+        <Game wordChars={wordChars} alphabetsDisplay={alphabetsDisplay} />
+      ) : (
+        <Menu handleStartGame={handleStartGame} setWordLength={setWordLength} />
+      )}
     </div>
   );
 };
