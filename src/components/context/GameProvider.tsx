@@ -1,5 +1,12 @@
 import React, { createContext, useState, useContext } from "react";
 
+// Create types for context
+export interface HighScore {
+  id: number;
+  player: string;
+  points: number;
+}
+
 interface GameContextProps {
   playerName: string;
   setPlayerName: React.Dispatch<React.SetStateAction<string>>;
@@ -11,6 +18,8 @@ interface GameContextProps {
   setGameWon: React.Dispatch<React.SetStateAction<boolean>>;
   wrongGuesses: number;
   setWrongGuesses: React.Dispatch<React.SetStateAction<number>>;
+  highScore: HighScore[];
+  setHighScore: React.Dispatch<React.SetStateAction<HighScore[]>>;
 }
 
 interface GameProviderProps {
@@ -27,6 +36,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [guessedWord, setGuessedWord] = useState("");
   const [gameWon, setGameWon] = useState(false);
   const [wrongGuesses, setWrongGuesses] = useState<number>(0);
+  const [highScore, setHighScore] = useState([
+    {
+      id: 0,
+      player: "",
+      points: 0,
+    },
+  ]);
 
   // Create GameContext.Provired (built-in property) and with that we can pass the states to the children components
   return (
@@ -42,6 +58,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setGameWon,
         wrongGuesses,
         setWrongGuesses,
+        highScore,
+        setHighScore,
       }}
     >
       {children}

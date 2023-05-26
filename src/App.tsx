@@ -5,22 +5,28 @@ import WinScreen from "./components/WinLoseScreens/WinScreen";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Game from "./components/Game/Game";
-import { useGame } from "./components/context/GameProvider";
+import { useGame, HighScore } from "./components/context/GameProvider";
 
 const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
+  const [integer, setInteger] = useState(0);
   const [difficulty, setDifficulty] = useState(10);
   const [randomWordChars, setRandomWordChars] = useState<WordChars[]>([]);
   const [alphabets, setAlphabets] = useState(initialAlphabets);
 
   const {
+    playerName,
+    setPlayerName,
     guessCount,
     setGuessCount,
     guessedWord,
+    setGuessedWord,
     gameWon,
     setGameWon,
     wrongGuesses,
     setWrongGuesses,
+    highScore,
+    setHighScore,
   } = useGame();
 
   function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
@@ -101,12 +107,36 @@ const App: React.FC = () => {
     );
 
     if (questionWord === guessedWordUpperCased) {
-      setGameWon(true);
+      endGame();
     } else {
       console.log("Wrong guess!");
     }
   }
 
+  function addOne() {
+    return setInteger((prevValue) => prevValue + 1);
+  }
+
+  function endGame() {
+    setGameWon(true);
+    addOne();
+    setHighScore((prevScore) => {
+      return [
+        ...prevScore,
+        {
+          id: integer,
+          player: playerName,
+          points: 10 - guessCount,
+        },
+      ];
+    });
+  }
+
+  function playAgain() {
+    setGuessCount(0);
+  }
+
+  console.log(highScore);
   return (
     <div className="App">
       <Header />

@@ -6,10 +6,8 @@ const WinScreen = () => {
       <div className="win-container">
         <h3>Congratulations!</h3>
         <p>You won the game!</p>
-        <p>...</p>
-        <p>And so your soul is gratitude with mecy...</p>
+        <button className="play-again-btn">Play Again</button>
       </div>
-      <button>Back to Menu</button>
     </div>
   );
 };

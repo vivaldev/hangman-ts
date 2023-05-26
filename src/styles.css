@@ -3,6 +3,13 @@
 :root {
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .App {
@@ -275,11 +282,11 @@ form > button {
   position: fixed; /* Huomaa, että z-index toimii vain, jos position on asetettu (ei ole 'static') */
   z-index: 2; /* Tämä luku voi olla korkeampi, jos sinulla on muita elementtejä, joilla on asetettu z-index */
 
-  top: 17h;
-  width: 60%; /* Kattaa koko näytön leveyden */
-  height: 90%; /* Kattaa koko näytön korkeuden */
+  top: 30vh;
+  width: 40%; /* Kattaa koko näytön leveyden */
+  height: 40%; /* Kattaa koko näytön korkeuden */
   overflow: auto; /* Salli vieritys, jos modaali menee näytön ulkopuolelle */
-  background-color: rgba(165, 53, 53, 1);
+  background-color: rgb(31, 64, 174);
 
   display: flex;
   flex-direction: column;
@@ -288,21 +295,34 @@ form > button {
 }
 
 .win-container {
-  margin-top: 20vh;
-  width: 80%;
-  height: 60%;
-  border: 2px solid black;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+
+  border: 2px solid gray;
 }
 
 .win-container > h3 {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
 }
 
-.win-container > p {
-  font-size: 2rem;
+.play-again-btn {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+
+  background-color: rgb(18, 66, 114);
+  color: rgba(228, 240, 251, 0.87);
+}
+
+.play-again-btn:hover {
+  cursor: pointer;
+  opacity: 0.9;
+  box-shadow: 0.075rem 0.075rem 8px rgb(120, 126, 139);
 }
