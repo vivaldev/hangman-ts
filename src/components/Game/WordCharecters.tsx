@@ -7,6 +7,8 @@ interface WordCharectersProps {
 
 const WordCharecters: React.FC<WordCharectersProps> = ({ randomWordChars }) => {
   // Display the word that player is trying to guess as individual characters
+  // Depending of on players guess, display the character ("e.g 'A' or 'D'") or an underline ("_")
+
   const wordChars = randomWordChars.map(
     (charObj: { letter: string; isVisible: boolean }, index: number) => (
       <div key={charObj.letter + index} className="guess-letter">

@@ -4,13 +4,13 @@ import WordCharecters from "./WordCharecters";
 import GuessWord from "./GuessWord";
 import { WordChars, Alphabet } from "../../data";
 import AlphabetsDisplay from "./AlphabetsDisplay";
+import Hangtree from "./Hangtree/Hangtree";
 
 interface GameProps {
   randomWordChars: WordChars[];
   alphabets: Alphabet[];
   handleCharGuess: React.MouseEventHandler<HTMLButtonElement>;
   handleWordGuess: React.FormEventHandler<HTMLFormElement>;
-  setGuessedWord: (value: string) => void;
 }
 
 const Game: React.FC<GameProps> = ({
@@ -18,14 +18,13 @@ const Game: React.FC<GameProps> = ({
   alphabets,
   handleCharGuess,
   handleWordGuess,
-  setGuessedWord,
 }) => {
   return (
     <div className="game">
       <GameHeader />
       <div className="game-display">
         <WordCharecters randomWordChars={randomWordChars} />
-        <div className="console-hangtree">Hangtree</div>
+        <Hangtree />
       </div>
       <div className="game-input">
         <AlphabetsDisplay
@@ -33,10 +32,7 @@ const Game: React.FC<GameProps> = ({
           handleCharGuess={handleCharGuess}
         />
       </div>
-      <GuessWord
-        handleWordGuess={handleWordGuess}
-        setGuessedWord={setGuessedWord}
-      />
+      <GuessWord handleWordGuess={handleWordGuess} />
     </div>
   );
 };

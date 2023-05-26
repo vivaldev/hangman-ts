@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { wordsArray, initialAlphabets, WordChars } from "./data";
 
+import WinScreen from "./components/WinLoseScreens/WinScreen";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Game from "./components/Game/Game";
@@ -11,9 +12,9 @@ const App: React.FC = () => {
   const [difficulty, setDifficulty] = useState(10);
   const [randomWordChars, setRandomWordChars] = useState<WordChars[]>([]);
   const [alphabets, setAlphabets] = useState(initialAlphabets);
-  const [guessedWord, setGuessedWord] = useState("");
 
-  const { guessCount, setGuessCount } = useGame();
+  const { guessCount, setGuessCount, guessedWord, gameWon, setGameWon } =
+    useGame();
 
   function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -71,20 +72,35 @@ const App: React.FC = () => {
     );
   }
 
-  function handleWordGuess() {
-    console.log("word guess");
+  function handleWordGuess(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const questionWord = randomWordChars
+      .map((charObj) => charObj.letter)
+      .join("")
+      .toUpperCase(); // Convert to upper case
+    const guessedWordUpperCased = guessedWord.toUpperCase();
+
+    console.log(
+      `Question Word: ${questionWord} - Guessed Word: ${guessedWordUpperCased}`
+    );
+
+    if (questionWord === guessedWordUpperCased) {
+      setGameWon(true);
+    } else {
+      console.log("Wrong guess!");
+    }
   }
 
   return (
     <div className="App">
       <Header />
+      {gameWon && <WinScreen />}
       {gameStarted ? (
         <Game
           randomWordChars={randomWordChars}
           alphabets={alphabets}
           handleCharGuess={handleCharGuess}
           handleWordGuess={handleWordGuess}
-          setGuessedWord={setGuessedWord}
         />
       ) : (
         <Menu handleStartGame={handleStartGame} setDifficulty={setDifficulty} />

@@ -1,14 +1,13 @@
 import React from "react";
+import { useGame } from "../context/GameProvider";
 
 interface GuessWordProps {
   handleWordGuess: React.FormEventHandler<HTMLFormElement>;
-  setGuessedWord: (value: string) => void;
 }
 
-const GuessWord: React.FC<GuessWordProps> = ({
-  handleWordGuess,
-  setGuessedWord,
-}) => {
+const GuessWord: React.FC<GuessWordProps> = ({ handleWordGuess }) => {
+  // Get 'guessedWord' and use 'setGuessedWord' from GameProvider ( useContext, useGame)
+  const { setGuessedWord } = useGame();
   return (
     <form className="guess-word-form" onSubmit={handleWordGuess}>
       <label htmlFor="guessWordInput" className="guess-word-label">

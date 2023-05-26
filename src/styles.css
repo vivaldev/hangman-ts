@@ -112,6 +112,7 @@ h1 {
   justify-content: space-around;
 
   background-color: rgb(37, 35, 47);
+  z-index: 1;
 }
 
 .game-header {
@@ -266,4 +267,42 @@ form > button {
   border-radius: 5px;
 
   font-size: 1.5rem;
+}
+
+/* win screen */
+
+.modal {
+  position: fixed; /* Huomaa, että z-index toimii vain, jos position on asetettu (ei ole 'static') */
+  z-index: 2; /* Tämä luku voi olla korkeampi, jos sinulla on muita elementtejä, joilla on asetettu z-index */
+
+  top: 17h;
+  width: 60%; /* Kattaa koko näytön leveyden */
+  height: 90%; /* Kattaa koko näytön korkeuden */
+  overflow: auto; /* Salli vieritys, jos modaali menee näytön ulkopuolelle */
+  background-color: rgba(165, 53, 53, 1);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.win-container {
+  margin-top: 20vh;
+  width: 80%;
+  height: 60%;
+  border: 2px solid black;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.win-container > h3 {
+  font-size: 3.5rem;
+}
+
+.win-container > p {
+  font-size: 2rem;
 }

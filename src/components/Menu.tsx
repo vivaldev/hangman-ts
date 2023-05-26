@@ -8,8 +8,12 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ handleStartGame, setDifficulty }) => {
+  // Get 'setPlayerName' from GameProvider ( useContext, useGame)
   const { setPlayerName } = useGame();
 
+  // Handle slider change and use built-in Number function to convert
+  // string to number (HTML Range Input returns string value, for some reason)
+  // Use setDifficulty that is passed as a prop from App.tsx and affects randomWord.lenth
   function handleSliderChange(event: React.ChangeEvent<HTMLInputElement>) {
     setDifficulty(Number(event.target.value));
   }

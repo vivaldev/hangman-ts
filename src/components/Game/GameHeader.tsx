@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
 import { useGame } from "../context/GameProvider";
 
 const GameHeader = () => {
+  // Use 'useContext' hook to get 'playerName' and 'guessCount' from the context
   const { playerName, guessCount } = useGame();
   return (
     <div className="game-header">
