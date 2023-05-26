@@ -13,8 +13,15 @@ const App: React.FC = () => {
   const [randomWordChars, setRandomWordChars] = useState<WordChars[]>([]);
   const [alphabets, setAlphabets] = useState(initialAlphabets);
 
-  const { guessCount, setGuessCount, guessedWord, gameWon, setGameWon } =
-    useGame();
+  const {
+    guessCount,
+    setGuessCount,
+    guessedWord,
+    gameWon,
+    setGameWon,
+    wrongGuesses,
+    setWrongGuesses,
+  } = useGame();
 
   function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,6 +49,9 @@ const App: React.FC = () => {
   }
 
   function handleCharGuess(event: React.MouseEvent<HTMLButtonElement>) {
+    // Get the guessed letter from the button's innerText
+    const guessedLetter = (event.target as HTMLButtonElement).innerText;
+
     // Check if player has any guesses left and add count
     if (guessCount < 9) {
       setGuessCount((count) => count + 1);
@@ -50,8 +60,14 @@ const App: React.FC = () => {
       console.log("Game Over!");
     }
 
-    // Get the guessed letter from the button's innerText
-    const guessedLetter = (event.target as HTMLButtonElement).innerText;
+    // Check if guessed letter is in word
+    const guessedLetterIsInWord = randomWordChars.some(
+      (charObj) => charObj.letter === guessedLetter
+    );
+
+    if (!guessedLetterIsInWord) {
+      setWrongGuesses((count) => count + 1);
+    }
 
     // Change the display of the guessed letter
     setAlphabets((alphabets) =>

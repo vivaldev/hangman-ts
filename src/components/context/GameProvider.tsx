@@ -9,6 +9,8 @@ interface GameContextProps {
   setGuessedWord: React.Dispatch<React.SetStateAction<string>>;
   gameWon: boolean;
   setGameWon: React.Dispatch<React.SetStateAction<boolean>>;
+  wrongGuesses: number;
+  setWrongGuesses: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface GameProviderProps {
@@ -24,6 +26,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const [guessCount, setGuessCount] = useState(0);
   const [guessedWord, setGuessedWord] = useState("");
   const [gameWon, setGameWon] = useState(false);
+  const [wrongGuesses, setWrongGuesses] = useState<number>(0);
 
   // Create GameContext.Provired (built-in property) and with that we can pass the states to the children components
   return (
@@ -37,6 +40,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         setGuessedWord,
         gameWon,
         setGameWon,
+        wrongGuesses,
+        setWrongGuesses,
       }}
     >
       {children}
