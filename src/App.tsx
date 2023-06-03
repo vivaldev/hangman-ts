@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { wordsArray, initialAlphabets, WordChars } from "./data";
 
+import LoseScreen from "./components/WinLoseScreens/LoseScreen";
 import WinScreen from "./components/WinLoseScreens/WinScreen";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Game from "./components/Game/Game";
+
 import { useGame, HighScore } from "./components/context/GameProvider";
 
 const App: React.FC = () => {
@@ -21,8 +23,8 @@ const App: React.FC = () => {
     setGuessCount,
     guessedWord,
     setGuessedWord,
-    gameWon,
-    setGameWon,
+    winOrLose,
+    setWinOrLose,
     wrongGuesses,
     setWrongGuesses,
     highScore,
@@ -31,6 +33,10 @@ const App: React.FC = () => {
 
   function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setGuessCount(0);
+    setWrongGuesses(0);
+    setAlphabets(initialAlphabets);
+    setWinOrLose("");
     getRandomWord();
     setGameStarted(true);
   }
@@ -59,20 +65,18 @@ const App: React.FC = () => {
     const guessedLetter = (event.target as HTMLButtonElement).innerText;
 
     // Check if player has any guesses left and add count
-    if (guessCount < 9) {
-      setGuessCount((count) => count + 1);
+    if (guessCount < 14) {
+      // Check if guessed letter is in word
+      const guessedLetterIsInWord = randomWordChars.some(
+        (charObj) => charObj.letter === guessedLetter
+      );
+
+      if (!guessedLetterIsInWord) {
+        setGuessCount((count) => count + 1);
+      }
     } else {
       setGuessCount((count) => count + 1);
-      console.log("Game Over!");
-    }
-
-    // Check if guessed letter is in word
-    const guessedLetterIsInWord = randomWordChars.some(
-      (charObj) => charObj.letter === guessedLetter
-    );
-
-    if (!guessedLetterIsInWord) {
-      setWrongGuesses((count) => count + 1);
+      setWinOrLose("lose");
     }
 
     // Change the display of the guessed letter
@@ -100,57 +104,48 @@ const App: React.FC = () => {
       .map((charObj) => charObj.letter)
       .join("")
       .toUpperCase(); // Convert to upper case
-    const guessedWordUpperCased = guessedWord.toUpperCase();
 
     console.log(
-      `Question Word: ${questionWord} - Guessed Word: ${guessedWordUpperCased}`
+      `Question Word: ${questionWord} - Guessed Word: ${guessedWord.toUpperCase()}`
     );
 
-    if (questionWord === guessedWordUpperCased) {
+    if (questionWord === guessedWord.toUpperCase()) {
+      setWinOrLose("win");
       endGame();
     } else {
-      console.log("Wrong guess!");
+      return;
     }
   }
-
-  function addOne() {
-    return setInteger((prevValue) => prevValue + 1);
-  }
+  5;
 
   function endGame() {
-    setGameWon(true);
-    addOne();
-    setHighScore((prevScore) => {
-      return [
-        ...prevScore,
-        {
-          id: integer,
-          player: playerName,
-          points: 10 - guessCount,
-        },
-      ];
-    });
-  }
-
-  function playAgain() {
     setGuessCount(0);
+    setGameStarted(false);
+    setAlphabets(initialAlphabets);
+    setGuessedWord("");
   }
 
-  console.log(highScore);
+  console.log(`highScore: ${highScore}`);
   return (
-    <div className="App">
+    <div className="game-container">
       <Header />
-      {gameWon && <WinScreen />}
-      {gameStarted ? (
-        <Game
-          randomWordChars={randomWordChars}
-          alphabets={alphabets}
-          handleCharGuess={handleCharGuess}
-          handleWordGuess={handleWordGuess}
-        />
-      ) : (
-        <Menu handleStartGame={handleStartGame} setDifficulty={setDifficulty} />
-      )}
+      <div className="App">
+        {winOrLose === "win" && <WinScreen newGame={handleStartGame} />}
+        {winOrLose === "lose" && <LoseScreen newGame={handleStartGame} />}
+        {gameStarted ? (
+          <Game
+            randomWordChars={randomWordChars}
+            alphabets={alphabets}
+            handleCharGuess={handleCharGuess}
+            handleWordGuess={handleWordGuess}
+          />
+        ) : (
+          <Menu
+            handleStartGame={handleStartGame}
+            setDifficulty={setDifficulty}
+          />
+        )}
+      </div>
     </div>
   );
 };

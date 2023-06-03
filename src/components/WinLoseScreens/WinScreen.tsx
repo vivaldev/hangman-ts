@@ -1,12 +1,18 @@
 import React from "react";
 
-const WinScreen = () => {
+interface WinScreenProps {
+  newGame: () => void;
+}
+
+const WinScreen = ({ newGame }) => {
   return (
     <div className="modal">
       <div className="win-container">
         <h3>Congratulations!</h3>
         <p>You won the game!</p>
-        <button className="play-again-btn">Play Again</button>
+        <button onClick={newGame} className="play-again-btn">
+          Play Again
+        </button>
       </div>
     </div>
   );
