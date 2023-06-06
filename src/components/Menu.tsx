@@ -2,12 +2,12 @@ import React from "react";
 import { useGame } from "./context/GameProvider";
 
 interface MenuProps {
-  handleStartGame: React.FormEventHandler<HTMLFormElement>;
+  startNewGame: React.FormEventHandler<HTMLFormElement>;
 
   setDifficulty: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Menu: React.FC<MenuProps> = ({ handleStartGame, setDifficulty }) => {
+const Menu: React.FC<MenuProps> = ({ startNewGame, setDifficulty }) => {
   // Get 'setPlayerName' from GameProvider ( useContext, useGame)
   const { setPlayerName } = useGame();
 
@@ -20,7 +20,7 @@ const Menu: React.FC<MenuProps> = ({ handleStartGame, setDifficulty }) => {
 
   return (
     <div className="menu">
-      <form onSubmit={handleStartGame} className="form-container">
+      <form onSubmit={startNewGame} className="form-container">
         <input
           className="name-input"
           type="text"

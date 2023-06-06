@@ -16,7 +16,7 @@ const paths = [
 ];
 
 // HangTree component creates a HangmanPart for each path
-const HangTree = () => {
+export const HangTree = () => {
   const { wrongGuesses } = useGame();
 
   return (
@@ -31,5 +31,3 @@ const HangTree = () => {
     </svg>
   );
 };
-
-export default HangTree;

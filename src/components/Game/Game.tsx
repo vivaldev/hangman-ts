@@ -4,7 +4,7 @@ import WordCharecters from "./WordCharecters";
 import GuessWord from "./GuessWord";
 import { WordChars, Alphabet } from "../../data";
 import AlphabetsDisplay from "./AlphabetsDisplay";
-import Hangtree from "./Hangtree/Hangtree";
+import { HangTree } from "./Hangtree/Hangtree"; // Ensure the path is correct according to your project structure.
 
 interface GameProps {
   randomWordChars: WordChars[];
@@ -24,7 +24,7 @@ const Game: React.FC<GameProps> = ({
       <GameHeader />
       <div className="game-display">
         <WordCharecters randomWordChars={randomWordChars} />
-        <Hangtree />
+        <HangTree /> {/* Corrected the spelling */}
       </div>
       <div className="game-input">
         <AlphabetsDisplay

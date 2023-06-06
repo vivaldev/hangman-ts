@@ -1,17 +1,16 @@
+// path: './App.tsx'
 import React, { useState } from "react";
 import { wordsArray, initialAlphabets, WordChars } from "./data";
 
-import LoseScreen from "./components/WinLoseScreens/LoseScreen";
-import WinScreen from "./components/WinLoseScreens/WinScreen";
+import EndScreen from "./components/Game/EndScreen";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Game from "./components/Game/Game";
 
-import { useGame, HighScore } from "./components/context/GameProvider";
+import { useGame } from "./components/context/GameProvider";
 
 const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
-  const [integer, setInteger] = useState(0);
   const [difficulty, setDifficulty] = useState(10);
   const [randomWordChars, setRandomWordChars] = useState<WordChars[]>([]);
   const [alphabets, setAlphabets] = useState(initialAlphabets);
@@ -27,30 +26,34 @@ const App: React.FC = () => {
     setWinOrLose,
     wrongGuesses,
     setWrongGuesses,
-    highScore,
-    setHighScore,
   } = useGame();
 
-  function handleStartGame(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setGuessCount(0);
-    setWrongGuesses(0);
-    setAlphabets(initialAlphabets);
-    setWinOrLose("");
-    getRandomWord();
-    setGameStarted(true);
-  }
-
   function getRandomWord() {
-    // Get all word objects from DB and filter them by word length (user set difficulty)
-    const onlyWordsArray = wordsArray.map((wordObject) => wordObject.word);
-    const filteredWords = onlyWordsArray.filter(
-      (word) => word.length <= difficulty
+    const filteredWords = wordsArray.filter(
+      (word) => word.word.length <= difficulty
     );
 
+    // Make sure filteredWords is not empty
+    if (filteredWords.length === 0) {
+      console.log("No words found with the current difficulty setting");
+      return;
+    }
+
     // Choose a random word from the filtered word candidates
-    const chosenWord =
+    const chosenWordObject =
       filteredWords[Math.floor(Math.random() * filteredWords.length)];
+
+    if (!chosenWordObject) {
+      console.log("Chosen word object is undefined");
+      return;
+    }
+
+    const chosenWord = chosenWordObject.word;
+
+    if (!chosenWord) {
+      console.log("Chosen word is undefined");
+      return;
+    }
 
     // Split the chosen word into an array of characters and map them to an object with a letter and a boolean value
     const chosenWordChars = chosenWord
@@ -73,6 +76,7 @@ const App: React.FC = () => {
 
       if (!guessedLetterIsInWord) {
         setGuessCount((count) => count + 1);
+        setWrongGuesses((count) => count + 1); // Update wrongGuesses here
       }
     } else {
       setGuessCount((count) => count + 1);
@@ -103,49 +107,64 @@ const App: React.FC = () => {
     const questionWord = randomWordChars
       .map((charObj) => charObj.letter)
       .join("")
-      .toUpperCase(); // Convert to upper case
+      .toUpperCase(); // Convert to uppercase
 
     console.log(
-      `Question Word: ${questionWord} - Guessed Word: ${guessedWord.toUpperCase()}`
-    );
+      `Question Word: ${questionWord} - Guessed Word: ${guessedWord}`
+    ); // For testing purposes
 
-    if (questionWord === guessedWord.toUpperCase()) {
+    if (guessedWord.toUpperCase() === questionWord) {
       setWinOrLose("win");
-      endGame();
     } else {
-      return;
+      setWinOrLose("lose");
     }
   }
-  5;
 
-  function endGame() {
-    setGuessCount(0);
-    setGameStarted(false);
-    setAlphabets(initialAlphabets);
-    setGuessedWord("");
+  function startNewGame() {
+    setGameStarted(true);
+    getRandomWord();
   }
 
-  console.log(`highScore: ${highScore}`);
+  function resetGame() {
+    setGameStarted(false);
+    setGuessCount(0);
+    setGuessedWord("");
+    setWinOrLose("");
+    setRandomWordChars([]);
+    setAlphabets(initialAlphabets);
+    setWrongGuesses([]);
+  }
+
   return (
-    <div className="game-container">
+    <div className="App">
       <Header />
-      <div className="App">
-        {winOrLose === "win" && <WinScreen newGame={handleStartGame} />}
-        {winOrLose === "lose" && <LoseScreen newGame={handleStartGame} />}
-        {gameStarted ? (
-          <Game
-            randomWordChars={randomWordChars}
-            alphabets={alphabets}
-            handleCharGuess={handleCharGuess}
-            handleWordGuess={handleWordGuess}
-          />
-        ) : (
-          <Menu
-            handleStartGame={handleStartGame}
-            setDifficulty={setDifficulty}
-          />
-        )}
-      </div>
+      {!gameStarted && (
+        <Menu
+          playerName={playerName}
+          setPlayerName={setPlayerName}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          startNewGame={startNewGame}
+        />
+      )}
+      // In App.tsx // ...
+      {gameStarted && (
+        <Game
+          randomWordChars={randomWordChars}
+          alphabets={alphabets}
+          handleCharGuess={handleCharGuess}
+          handleWordGuess={handleWordGuess}
+          guessedWord={guessedWord}
+          setGuessedWord={setGuessedWord}
+          winOrLose={winOrLose}
+          resetGame={resetGame}
+          guessCount={guessCount} // <-- Add this
+        />
+      )}
+      // ...
+      {(winOrLose === "win" || winOrLose === "lose") && (
+        <EndScreen winOrLose={winOrLose} newGame={resetGame} />
+      )}
     </div>
   );
 };
