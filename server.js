@@ -1,7 +1,9 @@
-const sqlite3 = require('sqlite3').verbose();
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import sqlite3 from 'sqlite3';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+
+sqlite3.verbose();
 
 const app = express();
 
@@ -31,18 +33,20 @@ db.run(`CREATE TABLE words {
 
 app.listen(3000, () => {
     console.log('App listening on port 3000');
-}
+});
+
+
 
 // GET /words
 // Hae kaikki sanat tietokannasta
 app.get('/words', (req, res) => {
-  db.all('SELECT * FROM words', [], (err, rows) => {
-    if (err) {
-      throw err;
-    }
-    res.send(rows);
-  });
-});
+    db.all('SELECT * FROM words', (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        res.send(rows);
+    })
+})
 
 // Päivitä sana tietokannassa
 app.put('/words/:id', (req, res) => {

@@ -1,4 +1,4 @@
-export interface Words {
+export interface Word {
   id: number;
   word: string;
   hasGuessed: boolean;
@@ -9,16 +9,11 @@ export interface Alphabet {
   isGuessed: boolean;
 }
 
-export interface WordChars {
-  letter: string;
-  isVisible: boolean;
-}
-
 // export type CharObj = { letter: string; isVisible: boolean };
 
 // export type Alphabet = { letter: string; isGuessed: boolean };
 
-export const wordsArray: Words[] = [
+export const wordsArray: Word[] = [
   {
     id: 1,
     word: "PINEAPPLE",

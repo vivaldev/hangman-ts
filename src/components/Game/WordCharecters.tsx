@@ -1,5 +1,5 @@
 import React from "react";
-import { WordChars } from "../../data";
+import { WordChars } from "../../../data/data";
 
 interface WordCharectersProps {
   randomWordChars: WordChars[];

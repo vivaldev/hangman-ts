@@ -1,6 +1,6 @@
 // path: './App.tsx'
 import React, { useState } from "react";
-import { wordsArray, initialAlphabets, WordChars } from "./data";
+import { wordsArray, initialAlphabets } from "../data/data";
 
 import EndScreen from "./components/Game/EndScreen";
 import Header from "./components/Header";

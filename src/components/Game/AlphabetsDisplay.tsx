@@ -1,5 +1,5 @@
 import React from "react";
-import { Alphabet } from "../../data";
+import { Alphabet } from "../../../data/data";
 
 interface AlphabetsDisplayProps {
   alphabets: Alphabet[];

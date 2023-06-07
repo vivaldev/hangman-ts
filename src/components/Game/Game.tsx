@@ -2,12 +2,12 @@ import React from "react";
 import GameHeader from "./GameHeader";
 import WordCharecters from "./WordCharecters";
 import GuessWord from "./GuessWord";
-import { WordChars, Alphabet } from "../../data";
+import { Alphabet, Word } from "../../../data/data";
 import AlphabetsDisplay from "./AlphabetsDisplay";
 import { HangTree } from "./Hangtree/Hangtree"; // Ensure the path is correct according to your project structure.
 
 interface GameProps {
-  randomWordChars: WordChars[];
+  randomWordChars: Word[];
   alphabets: Alphabet[];
   handleCharGuess: React.MouseEventHandler<HTMLButtonElement>;
   handleWordGuess: React.FormEventHandler<HTMLFormElement>;
